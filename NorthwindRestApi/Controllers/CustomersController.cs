@@ -10,7 +10,17 @@ namespace NorthwindRestApi.Controllers
     public class CustomersController : ControllerBase
     {
         //Alustetaan tietokantayhteys
-        Northwind1Context db = new Northwind1Context();
+
+        //Perinteinen tapa
+        //Northwind1Context db = new Northwind1Context();
+
+        //Dependency Injection -tapa
+        private Northwind1Context db;
+
+        public CustomersController(Northwind1Context dbparametri)
+        { 
+            db = dbparametri;
+        }
 
         //Hakee kaikki asiakkaat
         [HttpGet]
@@ -113,7 +123,24 @@ namespace NorthwindRestApi.Controllers
             }
 
             return NotFound("Asiakas ei löytynyt id:llä " + id);
+        }
 
+        //Hakee nimen osalla: /api/companyname/hakusana
+        [HttpGet("companyname/{cname}")]
+        public ActionResult GetByCompanyName(string cname)
+        {
+            try
+            {
+                var cust = db.Customers.Where(c => c.CompanyName.Contains(cname));
+                return Ok(cust);
+                //var cust = from c in db.Customers where c.CompanyName.Contains(cname) select c; <--sama mutta traditional
+                //var cust = db.Customers.Where(c => c.CompanyName == cname); <---perfect match kun nimen pitää olla täysin sama
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }
