@@ -54,6 +54,44 @@ namespace NorthwindRestApi.Controllers
             }
         }
 
+
+        //Hakee nimen osalla: 
+        [HttpGet("employeename/{ename}")]
+        public ActionResult GetByEmployeeName(string ename)
+        {
+            try
+            {
+                var employ = db.Employees.Where(e => e.FirstName.Contains(ename));
+                return Ok(employ);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //Hakee työntekijää kaupungin nimellä
+        [HttpGet("hometown/{city}")]
+        public ActionResult GetEmployeesByCity(string city)
+        {
+            try
+            {
+                var tyontekija = db.Employees
+                    .Where(e => e.City != null && e.City.Contains(city))
+                    .ToList();
+
+                if (tyontekija.Count == 0)
+                    return NotFound($"Työntekijöitä ei löytynyt kaupungista '{city}'");
+
+                return Ok(tyontekija);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         //Uuden lisääminen
         [HttpPost]
         public ActionResult AddNewEmployee([FromBody] Employee empl)

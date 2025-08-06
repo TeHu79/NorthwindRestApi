@@ -52,6 +52,45 @@ namespace NorthwindRestApi.Controllers
             }
         }
 
+        //Hakee nimen osalla: 
+        [HttpGet("productname/{pname}")]
+        public ActionResult GetByProductName(string pname)
+        {
+            try
+            {
+                var prod = db.Products.Where(p => p.ProductName.Contains(pname));
+                return Ok(prod);
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //Hakee tuotteita jolla tietty varastosaldo
+        [HttpGet("stock/{amount}")]
+        public ActionResult GetProductsByStockAmount(short amount)
+        {
+            try
+            {
+                var tuote = db.Products
+                    .Where(p => p.UnitsInStock == amount)
+                    .ToList();
+
+                if (tuote.Count == 0)
+                {
+                    return NotFound($"Ei löytynyt tuotteita, joilla on varastossa {amount} kpl.");
+                }
+
+                return Ok(tuote);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("Virhe haettaessa tuotteita: " + ex.Message);
+            }
+        }
+
         //Uuden lisääminen
         [HttpPost]
         public ActionResult AddNewProduct([FromBody] Product prod)
