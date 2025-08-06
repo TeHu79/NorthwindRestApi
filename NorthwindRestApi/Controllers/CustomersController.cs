@@ -72,7 +72,7 @@ namespace NorthwindRestApi.Controllers
 
         public ActionResult Delete(string id)
         {
-            try { 
+            try {
                 var asiakas = db.Customers.Find(id);
 
                 if (asiakas != null) //Jos id:llä löytyy asiakas
@@ -82,12 +82,38 @@ namespace NorthwindRestApi.Controllers
                     return Ok("Asiakas " + asiakas.CompanyName + " poistettiin.");
                 }
 
-                return NotFound ("Asiakas id:llä " + id + " ei löytynyt.");
+                return NotFound("Asiakas id:llä " + id + " ei löytynyt.");
             }
             catch (Exception e)
             {
                 return BadRequest(e.InnerException);
             }
+        }
+
+        //Asiakkaan muokkaaminen
+        [HttpPut("{id}")]
+
+        public ActionResult EditCustomer(string id, [FromBody]Customer customer)
+        {
+            var asiakas = db.Customers.Find(id);
+            if (asiakas != null)
+            {
+                asiakas.CompanyName = customer.CompanyName;
+                asiakas.ContactName = customer.ContactName;
+                asiakas.Address = customer.Address;
+                asiakas.City= customer.City;
+                asiakas.Region = customer.Region;
+                asiakas.PostalCode = customer.PostalCode;
+                asiakas.Country = customer.Country;
+                asiakas.Phone = customer.Phone;
+                asiakas.Fax = customer.Fax;
+
+                db.SaveChanges();
+                return Ok("Muokattu asiakasta " + asiakas.CompanyName);
+            }
+
+            return NotFound("Asiakas ei löytynyt id:llä " + id);
+
         }
     }
 }
