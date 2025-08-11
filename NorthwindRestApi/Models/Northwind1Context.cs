@@ -655,3 +655,4 @@ public partial class Northwind1Context : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
+
