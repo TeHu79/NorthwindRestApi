@@ -7,7 +7,6 @@ using System.Data.Common;
 
 namespace NorthwindRestApi.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
