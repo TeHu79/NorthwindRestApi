@@ -75,14 +75,17 @@ public partial class Northwind1Context : DbContext
 
     public virtual DbSet<TilaussummatDesimaali> TilaussummatDesimaalis { get; set; }
 
+    public virtual DbSet<User> Users { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (!optionsBuilder.IsConfigured)
+        if(!optionsBuilder.IsConfigured)
         {
-            return;
-            //optionsBuilder.UseSqlServer("Data Source=HURMEPC; Database=Northwind_1;Integrated Security=True;Encrypt=True;Trust Server Certificate=True");
+            optionsBuilder.UseSqlServer("Server=secret");
         }
     }
+           
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<AlphabeticalListOfProduct>(entity =>
@@ -650,9 +653,17 @@ public partial class Northwind1Context : DbContext
             entity.Property(e => e.OrderId).HasColumnName("OrderID");
         });
 
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.Property(e => e.Email).HasMaxLength(50);
+            entity.Property(e => e.Firstname).HasMaxLength(30);
+            entity.Property(e => e.Lastname).HasMaxLength(30);
+            entity.Property(e => e.Password).HasMaxLength(200);
+            entity.Property(e => e.Username).HasMaxLength(10);
+        });
+
         OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
-

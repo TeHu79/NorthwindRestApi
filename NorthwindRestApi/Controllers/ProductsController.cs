@@ -8,7 +8,7 @@ namespace NorthwindRestApi.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private Northwind1Context db;
+        private readonly Northwind1Context db;
 
         public ProductsController(Northwind1Context dbparametri)
         {
