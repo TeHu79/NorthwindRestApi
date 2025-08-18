@@ -13,6 +13,7 @@ namespace NorthwindRestApi.Services
 {
     public class AuthenticateService : IAuthenticateService
     {
+
         private readonly Northwind1Context db;
 
         private readonly AppSettings _appSettings;
@@ -21,6 +22,7 @@ namespace NorthwindRestApi.Services
             _appSettings = appSettings.Value;
             db = nwc;
         }
+
 
         //Metodin paluutyyppi on LoggedUser luokan mukainen olio
         public LoggedUser? Authenticate(string username, string password)

@@ -1,10 +1,16 @@
-using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+Ôªøusing Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NorthwindRestApi.Models;
 using NorthwindRestApi.Services;
 using NorthwindRestApi.Services.Interfaces;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +36,7 @@ builder.Services.AddDbContext<Northwind1Context>(options => options.UseSqlServer
     //builder.Configuration.GetConnectionString("paikallinen")
     ));
 
-// ------------- tuodaan appSettings.jsoniin tekem‰mme AppSettings m‰‰ritys ------------
+// ------------- tuodaan appSettings.jsoniin tekem√§mme AppSettings m√§√§ritys ------------
 
 var appSettingsSection = builder.Configuration.GetSection("AppSettings");
 builder.Services.Configure<AppSettings>(appSettingsSection);
@@ -60,7 +66,7 @@ builder.Services.AddAuthentication(au =>
 
 builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
 
-//----------------------------jwt m‰‰ritys p‰‰ttyy-----------------------------------------
+//----------------------------jwt m√§√§ritys p√§√§ttyy-----------------------------------------
 
 var app = builder.Build();
 
@@ -73,10 +79,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
 
-// Aktioidaan tietty cors m‰‰ritys
+// Aktioidaan tietty cors m√§√§ritys
 app.UseCors("all");
+
+app.UseAuthorization();
 
 app.MapControllers();
 
