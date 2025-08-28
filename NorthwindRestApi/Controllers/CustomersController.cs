@@ -8,7 +8,7 @@ using System.Net;
 
 namespace NorthwindRestApi.Controllers
 {
-    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
@@ -28,11 +28,11 @@ namespace NorthwindRestApi.Controllers
 
         //Hakee kaikki asiakkaat
         [HttpGet]
-        public ActionResult GetAllCustomers()
+        public ActionResult GetAll()
         {
             try
             {
-                var asiakkaat = db.Customers.ToList();
+                var asiakkaat = db.Customers;
                 return Ok(asiakkaat);
             }
             catch (Exception e)

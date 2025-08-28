@@ -21,6 +21,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ------------- Cors määritys ------------
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("all",
@@ -31,9 +32,10 @@ builder.Services.AddCors(options =>
 
 // ------Connection string luetaan app settings.json tiedostosta--------------
 
+// Dependency Injektiolla välitetty tietokantatieto kontrollereille
 builder.Services.AddDbContext<Northwind1Context>(options => options.UseSqlServer(
-    builder.Configuration.GetConnectionString("pilvi")
     //builder.Configuration.GetConnectionString("paikallinen")
+    builder.Configuration.GetConnectionString("pilvi")
     ));
 
 // ------------- tuodaan appSettings.jsoniin tekemämme AppSettings määritys ------------
@@ -79,10 +81,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
-// Aktioidaan tietty cors määritys
 app.UseCors("all");
 
+// JWT autentikaatio
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

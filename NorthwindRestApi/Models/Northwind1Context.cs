@@ -81,7 +81,7 @@ public partial class Northwind1Context : DbContext
     {
         if(!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("Server=secret");
+            optionsBuilder.UseSqlServer("Server=secret;");
         }
     }
            

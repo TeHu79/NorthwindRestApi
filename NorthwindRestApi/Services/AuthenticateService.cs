@@ -1,13 +1,11 @@
 ﻿using NorthwindRestApi.Models;
 using Microsoft.Extensions.Options;
 using System.IdentityModel.Tokens.Jwt;
-using System;
 using System.Text;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using NorthwindRestApi.Services.Interfaces;
-
 
 namespace NorthwindRestApi.Services
 {
